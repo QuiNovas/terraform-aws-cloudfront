@@ -17,7 +17,6 @@ resource "aws_iam_role" "ci" {
 EOF
 }
 
-
 resource "aws_iam_role_policy" "ci" {
   name   = "write_to_origin_and_invalidate_cloudfront"
   role   = "${aws_iam_role.ci.id}"
