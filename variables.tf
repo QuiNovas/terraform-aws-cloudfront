@@ -26,11 +26,6 @@ variable "custom_error_responses" {
   type        = "list"
 }
 
-variable "create_ci_user" {
-	default     = false
-	description = "Create an IAM user with permissions to write to the origin bucket and create CloudFront invalidations."
-}
-
 variable "default_root_object" {
   default     = "index.html"
   description = "The object that you want CloudFront to return (for example, index.html) when an end user requests the root URL."
