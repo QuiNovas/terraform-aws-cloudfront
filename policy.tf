@@ -1,6 +1,4 @@
 data "aws_iam_policy_document" "ci" {
-  name      = "write_to_origin_and_invalidate_cloudfront"
-
 	statement = {
 		actions   = [
 			"s3:AbortMultipartUpload",
@@ -33,7 +31,7 @@ data "aws_iam_policy_document" "ci" {
 
 	statement = {
 		actions   = [
-			"cloudfront:CreateInvalidation:*"
+			"cloudfront:CreateInvalidation"
 	  ]
 
 		resources = [
