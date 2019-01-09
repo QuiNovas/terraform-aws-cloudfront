@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "ci" {
+data "aws_iam_policy_document" "manage" {
 	statement = {
 		actions   = [
 			"s3:AbortMultipartUpload",
@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "ci" {
 	}
 }
 
-resource "aws_iam_policy" "ci" {
-	name = "${var.distribution_name}-ci"
-	policy = "${data.aws_iam_policy_document.ci.json}"
+resource "aws_iam_policy" "manage" {
+	name = "${var.distribution_name}-manage"
+	policy = "${data.aws_iam_policy_document.manage.json}"
 }
