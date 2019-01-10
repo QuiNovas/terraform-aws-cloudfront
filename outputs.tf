@@ -18,6 +18,11 @@ output "distribution_id" {
   value       = "${aws_cloudfront_distribution.distribution.id}"
 }
 
+output "manage_policy_arn" {
+	description = "The ARN of the management policy. Will be of format arn:aws:iam:::policy/policyname"
+  value       = "${aws_iam_policy.manage.arn}"
+}
+
 output "origin_bucket" {
   description = "The name of the orgin bucket."
   value       = "${aws_s3_bucket.origin.id}"
