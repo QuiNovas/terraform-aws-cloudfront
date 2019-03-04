@@ -11,7 +11,6 @@ resource "aws_cloudfront_distribution" "distribution" {
     "${var.aliases}"
   ]
   comment                 = "${var.comment}"
-  count                   = "${local.cloudfront_default_certificate ? 0 : 1}"
   custom_error_response   = [
     "${var.custom_error_responses}"
   ]
