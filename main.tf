@@ -72,11 +72,6 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
   }
   tags                    = "${local.tags}"
-  viewer_certificate {
-    acm_certificate_arn             = "${var.acm_certificate_arn}"
-    cloudfront_default_certificate  = "${local.cloudfront_default_certificate}"
-    minimum_protocol_version        = "${local.cloudfront_default_certificate ? "TLSv1" : "TLSv1.1_2016"}"
-    ssl_support_method              = "sni-only"
-  }
-  web_acl_id          = "${var.web_acl_id}"
+  viewer_certificate      = "${local.viewer_certificate}"
+  web_acl_id              = "${var.web_acl_id}"
 }
