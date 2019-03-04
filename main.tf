@@ -6,7 +6,7 @@ resource "aws_cloudfront_origin_access_identity" "origin" {
   comment = "${var.distribution_name}"
 }
 
-resource "aws_cloudfront_distribution" "distribution_with_acm" {
+resource "aws_cloudfront_distribution" "distribution" {
   aliases                 = [
     "${var.aliases}"
   ]
