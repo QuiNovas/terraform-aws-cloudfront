@@ -72,6 +72,6 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
   }
   tags                    = "${local.tags}"
-  viewer_certificate      = "${local.viewer_certificate}"
+  viewer_certificate      = ["${local.viewer_certificate}"]
   web_acl_id              = "${var.web_acl_id}"
 }
