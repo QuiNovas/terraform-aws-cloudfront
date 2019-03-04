@@ -1,5 +1,6 @@
 variable "acm_certificate_arn" {
-  description = "The ARN of the AWS Certificate Manager certificate that you wish to use with this distribution. The ACM certificate must be in US-EAST-1."
+  default     = ""
+  description = "The ARN of the AWS Certificate Manager certificate that you wish to use with this distribution. The ACM certificate must be in US-EAST-1. If this is left empty, the default certificate will be used"
   type        = "string"
 }
 
