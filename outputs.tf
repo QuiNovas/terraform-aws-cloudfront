@@ -5,7 +5,7 @@ output "distribution_arn" {
 
 output "distribution_domain_name" {
   description = "The domain name corresponding to the distribution. For example: d604721fxaaqy9.cloudfront.net."
-  value       = "${local.cloudfront_default_certificate ? aws_cloudfront_distribution.distribution_with_default.*.domain_name[0] ? aws_cloudfront_distribution.distribution.*.domain_name[0]}"
+  value       = "${local.cloudfront_default_certificate ? aws_cloudfront_distribution.distribution_with_default.*.domain_name[0] : aws_cloudfront_distribution.distribution.*.domain_name[0]}"
 }
 
 output "distribution_hosted_zone_id" {
