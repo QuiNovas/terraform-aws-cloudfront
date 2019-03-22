@@ -56,7 +56,7 @@ resource "aws_lambda_function" "redirector" {
   }
   publish           = true
   role              = "${aws_iam_role.redirector.arn}"
-  runtime           = "nodejs6.10"
+  runtime           = "nodejs8.10"
   source_code_hash  = "${base64sha256(file("${path.module}/default-index-redirect/function.zip"))}"
   tags              = "${local.tags}"
 }
