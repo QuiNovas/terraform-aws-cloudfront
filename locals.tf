@@ -10,7 +10,6 @@ locals {
   viewer_certificate_default {
     cloudfront_default_certificate  = true
     minimum_protocol_version        = "TLSv1"
-    ssl_support_method              = "sni-only"
   }
   viewer_certificates = [
     "${local.viewer_certificate_default}",

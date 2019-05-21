@@ -5,6 +5,7 @@ variable "acm_certificate_arn" {
 }
 
 variable "aliases" {
+  default     = []
   description = "Extra CNAMEs (alternate domain names), if any, for this distribution."
   type        = "list"
 }
