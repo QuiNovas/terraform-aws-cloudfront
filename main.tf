@@ -58,35 +58,31 @@ resource "aws_cloudfront_distribution" "distribution" {
   dynamic "ordered_cache_behavior" {
     for_each = var.ordered_cache_behavior
     content {
-      allowed_methods           = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      cached_methods            = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      compress                  = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      default_ttl               = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      field_level_encryption_id = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      max_ttl                   = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      min_ttl                   = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      path_pattern              = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      smooth_streaming          = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      target_origin_id          = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      trusted_signers           = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
-      viewer_protocol_policy    = lookup(ordered_cache_behavior.value, "error_caching_min_ttl", null)
+      allowed_methods           = ordered_cache_behavior.value.allowed_methods
+      cached_methods            = ordered_cache_behavior.value.cached_methods
+      compress                  = lookup(ordered_cache_behavior.value, "compress", null)
+      default_ttl               = lookup(ordered_cache_behavior.value, "default_ttl", null)
+      field_level_encryption_id = lookup(ordered_cache_behavior.value, "field_level_encryption_id", null)
+      max_ttl                   = lookup(ordered_cache_behavior.value, "max_ttl", null)
+      min_ttl                   = lookup(ordered_cache_behavior.value, "min_ttl", null)
+      path_pattern              = ordered_cache_behavior.value.path_pattern
+      smooth_streaming          = lookup(ordered_cache_behavior.value, "smooth_streaming", null)
+      target_origin_id          = ordered_cache_behavior.value.target_origin_id
+      trusted_signers           = lookup(ordered_cache_behavior.value, "trusted_signers", null)
+      viewer_protocol_policy    = ordered_cache_behavior.value.viewer_protocol_policy
 
       forwarded_values {  
-          headers                 = ordered_cache_behavior.value.forwarded_values.headers
+          headers                 = lookup(ordered_cache_behavior.value.forwarded_values, "headers", null)
           query_string            = ordered_cache_behavior.value.forwarded_values.query_string
-          query_string_cache_keys = ordered_cache_behavior.value.forwarded_values.query_string_cache_keys
+          query_string_cache_keys = lookup(ordered_cache_behavior.value.forwarded_values, "query_string_cache_keys", null)
           cookies {
               forward           = ordered_cache_behavior.value.forwarded_values.cookies.forward
-              whitelisted_names = ordered_cache_behavior.value.forwarded_values.cookies.whitelisted_names
+              whitelisted_names = lookup(ordered_cache_behavior.value.forwarded_values.cookies, "whitelisted_names", null)
             }
           }
         
       dynamic "lambda_function_association" {
-        for_each = [for lambda_function_association in ordered_cache_behavior.value.lambda_function_association :{
-          event_type   = lambda_function_association.event_type
-          include_body = lambda_function_association.include_body
-          lambda_arn   = lambda_function_association.lambda_arn
-        }]
+        for_each = ordered_cache_behavior.value.lambda_function_association
         content {
           event_type   = lambda_function_association.value.event_type
           include_body = lambda_function_association.value.include_body
@@ -109,20 +105,11 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
   }
   tags = local.tags
-  dynamic "viewer_certificate" {
-    for_each = [local.viewer_certificates[local.cloudfront_default_certificate ? 0 : 1]]
-    content {
-      # TF-UPGRADE-TODO: The automatic upgrade tool can't predict
-      # which keys might be set in maps assigned here, so it has
-      # produced a comprehensive set here. Consider simplifying
-      # this after confirming which keys can be set in practice.
-
-      acm_certificate_arn            = lookup(viewer_certificate.value, "acm_certificate_arn", null)
-      cloudfront_default_certificate = lookup(viewer_certificate.value, "cloudfront_default_certificate", null)
-      iam_certificate_id             = lookup(viewer_certificate.value, "iam_certificate_id", null)
-      minimum_protocol_version       = lookup(viewer_certificate.value, "minimum_protocol_version", null)
-      ssl_support_method             = lookup(viewer_certificate.value, "ssl_support_method", null)
-    }
+  viewer_certificate {
+    acm_certificate_arn            = var.acm_certificate_arn
+    ssl_support_method             = "sni-only"
+    minimum_protocol_version       = var.acm_certificate_arn == "" ? "TLSv1" : "TLSv1.1_2016"
+    cloudfront_default_certificate = var.acm_certificate_arn == "" ? true : false
   }
   web_acl_id = var.web_acl_id
 }
