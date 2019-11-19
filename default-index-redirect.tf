@@ -43,9 +43,10 @@ resource "aws_iam_role_policy" "redirector" {
 }
 
 resource "aws_lambda_function" "redirector" {
-  filename      = "${path.module}/default-index-redirect/function.zip"
-  function_name = "${var.distribution_name}-default-index-redirector"
-  handler       = "function.handler"
+  provider          = "aws.lambda_edge_region"
+  filename          = "${path.module}/default-index-redirect/function.zip"
+  function_name     = "${var.distribution_name}-default-index-redirector"
+  handler           = "function.handler"
   lifecycle {
     ignore_changes = [
       filename,
@@ -62,9 +63,9 @@ resource "aws_lambda_function" "redirector" {
 }
 
 resource "aws_lambda_permission" "redirector" {
+  provider      = "aws.lambda_edge_region"
   action        = "lambda:GetFunction"
   function_name = aws_lambda_function.redirector.function_name
   principal     = "edgelambda.amazonaws.com"
   statement_id  = "AllowExecutionFromCloudFront"
 }
-
