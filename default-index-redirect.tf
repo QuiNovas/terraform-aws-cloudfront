@@ -63,7 +63,7 @@ resource "aws_lambda_function" "redirector" {
 }
 
 resource "aws_lambda_permission" "redirector" {
-  provider      = "aws.lambda_edge_region"
+  provider      = aws.lambda_edge_region
   action        = "lambda:GetFunction"
   function_name = aws_lambda_function.redirector.function_name
   principal     = "edgelambda.amazonaws.com"
