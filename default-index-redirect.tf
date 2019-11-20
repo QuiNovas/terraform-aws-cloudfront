@@ -43,10 +43,10 @@ resource "aws_iam_role_policy" "redirector" {
 }
 
 resource "aws_lambda_function" "redirector" {
-  provider          = "aws.lambda_edge_region"
-  filename          = "${path.module}/default-index-redirect/function.zip"
-  function_name     = "${var.distribution_name}-default-index-redirector"
-  handler           = "function.handler"
+  provider      = "aws.lambda_edge_region"
+  filename      = "${path.module}/default-index-redirect/function.zip"
+  function_name = "${var.distribution_name}-default-index-redirector"
+  handler       = "function.handler"
   lifecycle {
     ignore_changes = [
       filename,
@@ -57,7 +57,7 @@ resource "aws_lambda_function" "redirector" {
   }
   publish          = true
   role             = aws_iam_role.redirector.arn
-  runtime          = "nodejs8.10"
+  runtime          = "nodejs10.x"
   source_code_hash = filebase64sha256("${path.module}/default-index-redirect/function.zip")
   tags             = local.tags
 }

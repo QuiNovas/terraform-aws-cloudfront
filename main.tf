@@ -71,16 +71,16 @@ resource "aws_cloudfront_distribution" "distribution" {
       trusted_signers           = lookup(ordered_cache_behavior.value, "trusted_signers", null)
       viewer_protocol_policy    = ordered_cache_behavior.value.viewer_protocol_policy
 
-      forwarded_values {  
-          headers                 = lookup(ordered_cache_behavior.value.forwarded_values, "headers", null)
-          query_string            = ordered_cache_behavior.value.forwarded_values.query_string
-          query_string_cache_keys = lookup(ordered_cache_behavior.value.forwarded_values, "query_string_cache_keys", null)
-          cookies {
-              forward           = ordered_cache_behavior.value.forwarded_values.cookies.forward
-              whitelisted_names = lookup(ordered_cache_behavior.value.forwarded_values.cookies, "whitelisted_names", null)
-            }
-          }
-        
+      forwarded_values {
+        headers                 = lookup(ordered_cache_behavior.value.forwarded_values, "headers", null)
+        query_string            = ordered_cache_behavior.value.forwarded_values.query_string
+        query_string_cache_keys = lookup(ordered_cache_behavior.value.forwarded_values, "query_string_cache_keys", null)
+        cookies {
+          forward           = ordered_cache_behavior.value.forwarded_values.cookies.forward
+          whitelisted_names = lookup(ordered_cache_behavior.value.forwarded_values.cookies, "whitelisted_names", null)
+        }
+      }
+
       dynamic "lambda_function_association" {
         for_each = ordered_cache_behavior.value.lambda_function_association
         content {
