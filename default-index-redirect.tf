@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "redirector" {
       "logs:PutLogEvents",
     ]
     resources = [
-      aws_cloudwatch_log_group.redirector_log_group.arn,
+      "${aws_cloudwatch_log_group.redirector_log_group.arn}:*",
     ]
     sid = "AllowLogCreation"
   }
