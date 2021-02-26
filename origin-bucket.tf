@@ -69,3 +69,13 @@ resource "aws_s3_bucket_policy" "origin" {
   policy = data.aws_iam_policy_document.origin_bucket_policy.json
 }
 
+resource "aws_s3_bucket_public_access_block" "origin" {
+  count                   = var.block_s3_public_access == true ? 1 : 0
+  bucket                  = aws_s3_bucket.origin.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
+}
+

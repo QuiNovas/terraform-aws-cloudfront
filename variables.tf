@@ -16,6 +16,13 @@ variable "bucket_name" {
   type        = string
 }
 
+
+variable "block_s3_public_access" {
+  default     = true
+  description = "blocks origin bucket public acceess"
+  type        = bool
+}
+
 variable "comment" {
   default     = ""
   description = "Any comments you want to include about the distribution."
