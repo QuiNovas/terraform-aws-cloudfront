@@ -1,22 +1,33 @@
 resource "aws_s3_bucket" "origin" {
   bucket = local.bucket_name
+
   lifecycle {
     prevent_destroy = true
   }
-  logging {
-    target_bucket = data.aws_s3_bucket.log_bucket.id
-    target_prefix = "s3/${local.bucket_name}/"
-  }
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+
   tags = local.tags
-  versioning {
-    enabled = true
+}
+
+resource "aws_s3_bucket_logging" "origin" {
+  bucket        = aws_s3_bucket.origin.id
+  target_bucket = data.aws_s3_bucket.log_bucket.id
+  target_prefix = "s3/${local.bucket_name}/"
+}
+
+resource "aws_s3_bucket_versioning" "origin" {
+  bucket = aws_s3_bucket.origin.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "origin" {
+  bucket = aws_s3_bucket.origin.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -76,6 +87,5 @@ resource "aws_s3_bucket_public_access_block" "origin" {
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-
 }
 
