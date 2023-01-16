@@ -47,12 +47,12 @@ variable "default_root_object" {
 }
 
 variable "distribution_name" {
-  description = "The name of the distribution."
+  description = "The name of the distribution. It must be a globally unique name since it'll be taken as the bucket name."
   type        = string
 }
 
 variable "log_bucket" {
-  description = "The log bucket to log CloudFront and S3 logs to."
+  description = "The log bucket to log CloudFront and S3 logs to. The bucket being used should have ACL enabled."
   type        = string
 }
 
