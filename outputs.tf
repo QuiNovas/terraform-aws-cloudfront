@@ -32,4 +32,3 @@ output "origin_bucket_arn" {
   description = "The ARN of the origin bucket. Will be of format arn:aws:s3:::bucketname."
   value       = aws_s3_bucket.origin.arn
 }
-

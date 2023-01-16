@@ -113,4 +113,3 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
   web_acl_id = var.web_acl_id
 }
-

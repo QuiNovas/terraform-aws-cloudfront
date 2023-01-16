@@ -45,4 +45,3 @@ resource "aws_iam_policy" "manage" {
   name   = "${var.distribution_name}-manage"
   policy = data.aws_iam_policy_document.manage.json
 }
-
