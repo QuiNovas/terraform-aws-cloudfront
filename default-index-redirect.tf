@@ -50,9 +50,6 @@ resource "aws_lambda_function" "redirector" {
   lifecycle {
     ignore_changes = [
       filename,
-      last_modified,
-      qualified_arn,
-      version,
     ]
   }
   publish          = true
